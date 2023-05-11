@@ -1,0 +1,10 @@
+{
+  "access_token": "这里添加自定义的api请求token",
+  "prompt_type": "",
+  "tone": "",
+  "topic": "",
+  "translate": "",
+  "notion_token": "",
+  "space_id": "",
+  "api_url": ""
+}

@@ -1,0 +1,16 @@
+### 测试 notionai-api
+
+POST http://{{host}}:{{port}}/ai/notion
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "prompt": "hi",
+  "prompt_type": "",
+  "tone": "",
+  "topic": "",
+  "translate": "chinese",
+  "notion_token": "",
+  "space_id": "",
+  "api_url": ""
+}
