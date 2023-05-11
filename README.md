@@ -4,9 +4,8 @@
 
 
 ### 使用说明
-
-    - 复制`config-dev.json`文件为`config.json`并填写自定义的`access_token`；
-    - 配置`http-client.env.json`后在`test_main.http`中进行接口调试，其中`access_token`的值跟config.json中的一致；
+- 复制`config-dev.json`文件为`config.json`并填写自定义的`access_token`；
+- 配置`http-client.env.json`后在`test_main.http`中进行接口调试，其中`access_token`的值跟config.json中的一致；
 
 ### docker方式运行
 
@@ -29,7 +28,7 @@ uvicorn run main:app --reload --host 0.0.0.0 --port 8000
 ### 参数说明
 【注意】：参数 `topic`、`prompt_type`、`translate`、`tone` 不能同时为空
 
-- 系统配置的参数
+- [系统配置的参数说明](config-dev.json)
 ```text
 {
   "access_token": "",  // 自定义的api请求token，可选参数
@@ -44,7 +43,7 @@ uvicorn run main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 
-- api请求的参数（`api的参数`比`系统配置的参数`优先级高，方便调用者动态修改）
+- api请求的参数（`api的参数`比`系统配置的参数`优先级高，方便调用者动态修改）,api的具体调用请参考[test_main.http](test_main.http)
 ```text
 {
   "prompt": "",  // 提问的问题内容（文本）【必选参数】
