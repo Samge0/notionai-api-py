@@ -24,30 +24,28 @@ mkdir -p ~/docker_data/notionai_api_py_gradio_cache
 方式1：以配置 ACCESS_TOKEN 环境变量方式运行
 ```shell
 docker run -d \
---name notionai-api-py \
+--name notionai-api-py-gradio \
 -e ACCESS_TOKEN=xxx \
 -e NOTION_TOPIC=blogPost \
 -e NOTION_TOKEN=xxx \
 -e NOTION_SPACE_ID=xxx \
 -e NOTION_API_URL=https://xxx.xxx.xxx \
 -v ~/docker_data/notionai_api_py_gradio_cache:/app/gradio_cache \
--p 8233:8000 \
+-p 7860:7860 \
 --pull=always \
 --restart always \
---memory=1G \
-samge/notionai-api-py:latest
+samge/notionai-api-py-gradio:latest
 ```
 
 方式2：以config.json映射方式运行
 这里的`~/docker_data/notionai-api-py/config.json`需要替换为使用者的本地映射路径。
 ```shell
 docker run -d \
---name notionai-api-py \
+--name notionai-api-py-gradio \
 -v ~/docker_data/notionai-api-py/config.json:/app/config.json \
 -v ~/docker_data/notionai_api_py_gradio_cache:/app/gradio_cache \
--p 8233:8000 \
+-p 7860:7860 \
 --pull=always \
 --restart always \
---memory=1G \
-samge/notionai-api-py:latest
+samge/notionai-api-py-gradio:latest
 ```

@@ -24,8 +24,8 @@ def create_layout():
             with gr.Row().style(equal_height=True):
                 tone = u_common_layout.get_tone_layout()
                 translate = u_common_layout.get_translate_layout()
-            prompt = gr.Textbox(show_label=True, label="提示内容（prompt）", placeholder="请输入提示内容（prompt）,与topic非相关强相关", lines=3, max_lines=3)
-            context = gr.Textbox(show_label=True, label="上下文内容（context）", placeholder="请输入上下文内容（context）,与prompt_type、tone、translate强相关，与topic非相关", lines=6, max_lines=6)
+            prompt = gr.Textbox(show_label=True, label="提示内容（prompt）", placeholder="请输入提示内容（prompt），与topic强相关", lines=3, max_lines=3)
+            context = gr.Textbox(show_label=True, label="上下文内容（context）", placeholder="请输入上下文内容（context），与prompt_type、tone、translate强相关，与topic非相关", lines=6, max_lines=6)
             with gr.Row().style(equal_height=True):
                 button_load = gr.Button("加载缓存")
                 button = gr.Button("生成内容")
