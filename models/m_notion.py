@@ -24,7 +24,7 @@ class NotionRequestBase(BaseModel):
 
 class NotionRequest(NotionRequestBase):
     """notion请求体"""
-    prompt: str  # 提示内容
-    context: str  # 上下文内容
+    prompt: Optional[str] = None  # 提示内容（文本）【可选，但prompt与context不能同时为空】
+    context: Optional[str] = None  # 上下文内容（文本）【可选，但prompt与context不能同时为空。部分类型必选：help_me_write、help_me_edit、translate、change_tone，如果为空则取prompt】
 
 
