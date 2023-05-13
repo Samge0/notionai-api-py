@@ -25,5 +25,6 @@ class NotionRequestBase(BaseModel):
 class NotionRequest(NotionRequestBase):
     """notion请求体"""
     prompt: str  # 提示内容
+    context: str  # 上下文内容
 
 

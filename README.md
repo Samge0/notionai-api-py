@@ -32,10 +32,10 @@ uvicorn run main:app --reload --host 0.0.0.0 --port 8000
 ```text
 {
   "access_token": "",  // 自定义的api请求token，可选参数
-  "prompt_type": "",  // 根据文本进行上下文连写，可选参数
-  "tone": "",  // 根据文本进行语调调整，可选参数
-  "topic": "",  // 根据文本进行主题书写，可选参数
-  "translate": "",  // 根据文本进行翻译，可选参数
+  "prompt_type": "",  // 根据文本进行上下文连写（需要提示prompt + 上下文内容context），可选参数
+  "tone": "",  // 根据文本进行语调调整（需要上下文内容context），可选参数
+  "topic": "",  // 根据提示进行主题书写（只需要提示prompt，不需要上下文内容context），可选参数
+  "translate": "",  // 根据文本进行翻译（需要上下文内容context），可选参数
   "notion_token": "",  // notion的 token_v2值，可选参数
   "space_id": "",  // notion的 space_id值，可选参数
   "api_url": ""  // 代理的api url，可选参数
@@ -46,16 +46,29 @@ uvicorn run main:app --reload --host 0.0.0.0 --port 8000
 - api请求的参数（`api的参数`比`系统配置的参数`优先级高，方便调用者动态修改）,api的具体调用请参考[test_main.http](test_main.http)
 ```text
 {
-  "prompt": "",  // 提问的问题内容（文本）【必选参数】
-  "prompt_type": "",  // 根据文本进行上下文连写，可选参数
-  "tone": "",  // 根据文本进行语调调整，可选参数
-  "topic": "",  // 根据文本进行主题书写，可选参数
-  "translate": "",  // 根据文本进行翻译，可选参数
+  "prompt": "",  // 提示内容（文本）【可选，但prompt与context不能同时为空】
+  "context": "",  // 上下文内容（文本）【可选，但prompt与context不能同时为空。部分类型必选：help_me_write、help_me_edit、translate、change_tone，如果为空则取prompt】
+  "prompt_type": "",  // 根据文本进行上下文连写（需要提示prompt + 上下文内容context），可选参数
+  "tone": "",  // 根据文本进行语调调整（需要上下文内容context），可选参数
+  "topic": "",  // 根据提示进行主题书写（只需要提示prompt，不需要上下文内容context），可选参数
+  "translate": "",  // 根据文本进行翻译（需要上下文内容context），可选参数
   "notion_token": "",  // notion的 token_v2值【必选参数】
   "space_id": "",  // notion的 space_id值【必选参数】
   "api_url": ""  // 代理的api url，可选参数
 }
 ```
+
+### 接口访问
+默认接口请求路径：`/ai/notion`
+请求方式：POST
+
+接口请求示例请求查看：[openai-api接口示例](https://console-docs.apipost.cn/preview/c31f8e11d6996f27/9832b4a0bb359b4e)
+![notionai-api-接口请求示例](/screenshots/notionai-api-demo.png)
+
+
+### Gradio-UI
+[点击这里查看Gradio-UI的README.md](gradio_ui/README.md)
+![gradio_ui](/screenshots/gradio-ui.png)
 
 
 ### 技术交流

@@ -142,3 +142,4 @@ DS_Store/
 config.json
 sg_test
 .github
+gradio_cache

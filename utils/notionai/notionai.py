@@ -37,7 +37,7 @@ class NotionAIBase(object):
         self.token = token
         self.space_id = space_id
         self.model = model
-        self.api_url = api_url
+        self.api_url = api_url or API_URL
         self.is_space_permission = False
         self.url = f"{self.api_url}/api/v3/getCompletion"
 
@@ -103,6 +103,7 @@ class NotionAI(NotionAIBase):
             {"id": "space_id_2", "name": "space_name"}
         ]
         """
+        api_url = api_url or API_URL
         url = f"{api_url}/api/v3/getSpaces"
         r = requests.post(url, headers=cls._build_headers(token))
         if r.status_code != 200:

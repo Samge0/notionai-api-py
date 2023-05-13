@@ -17,6 +17,7 @@ class ExtendedEnum(Enum):
 
 
 class TopicEnum(ExtendedEnum):
+    """ 主题枚举 """
     brainstorm_ideas = "brainstormIdeas"  # 头脑风暴想法
     blog_post = "blogPost"  # 博客文章
     outline = "outline"  # 大纲
@@ -33,6 +34,7 @@ class TopicEnum(ExtendedEnum):
 
 
 class TranslateLanguageEnum(ExtendedEnum):
+    """ 翻译枚举 """
     english = "english"  # 英语
     korean = "korean"  # 韩语
     chinese = "chinese"  # 中文
@@ -50,6 +52,7 @@ class TranslateLanguageEnum(ExtendedEnum):
 
 
 class PromptTypeEnum(ExtendedEnum):
+    """ 提示类型枚举 """
     help_me_write = "helpMeWrite"  # 帮助我写作
     continue_writing = "continueWriting"  # 继续写作
     change_tone = "changeTone"  # 改变语气
@@ -66,6 +69,7 @@ class PromptTypeEnum(ExtendedEnum):
 
 
 class ToneEnum(ExtendedEnum):
+    """ 语调枚举 """
     professional = "professional"  # 专业的
     casual = "casual"  # 随便的，非正式的
     straight_forward = "straightforward"  # 直截了当的，简单易懂的

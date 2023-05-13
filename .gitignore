@@ -141,3 +141,4 @@ DS_Store/
 *.private.env.json
 config.json
 sg_test
+gradio_cache
