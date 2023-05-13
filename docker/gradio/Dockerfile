@@ -8,8 +8,8 @@ WORKDIR /app
 COPY . .
 
 # 安装所需的 Python 包（这里的all_proxy需要替换为你的代理或者删掉）
-RUN pip install -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com -r requirements.txt && \
-    pip install -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com -r gradio_ui/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -r gradio_ui/requirements.txt
 
 # 声明容器监听的端口
 EXPOSE 7860
