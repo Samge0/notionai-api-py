@@ -1,5 +1,5 @@
 # 设置基础镜像
-FROM samge/notionai-api-py:latest
+FROM python:3.10-slim-buster
 
 # 将工作目录设置为 /app
 WORKDIR /app
