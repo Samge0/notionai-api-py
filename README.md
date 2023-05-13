@@ -62,7 +62,7 @@ uvicorn run main:app --reload --host 0.0.0.0 --port 8000
 默认接口请求路径：`/ai/notion`
 请求方式：POST
 
-接口请求示例请求查看：[openai-api接口示例](https://console-docs.apipost.cn/preview/c31f8e11d6996f27/9832b4a0bb359b4e)
+接口请求示例请求查看：[notionai-api接口示例](https://console-docs.apipost.cn/preview/c31f8e11d6996f27/9832b4a0bb359b4e)
 ![notionai-api-接口请求示例](/screenshots/notionai-api-demo.png)
 
 
