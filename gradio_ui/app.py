@@ -20,4 +20,4 @@ with gr.Blocks() as app:
         u_layout_notion_demo.create_layout()
 
 
-app.launch(share=False, inbrowser=False, debug=True, server_name="0.0.0.0", server_port=7861)
+app.launch(share=False, inbrowser=False, debug=True, server_name="0.0.0.0", server_port=7860)

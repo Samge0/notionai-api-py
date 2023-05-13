@@ -31,11 +31,11 @@ samge/notionai-api-py:latest
 ```
 
 `方式2：以config.json`映射方式运行
-这里的`/home/samge/docker_data/notionai-api-py/config.json`需要替换为使用者的本地映射路径。
+这里的`~/docker_data/notionai-api-py/config.json`需要替换为使用者的本地映射路径。
 ```shell
 docker run -d \
 --name notionai-api-py \
--v /home/samge/docker_data/notionai-api-py/config.json:/app/config.json \
+-v ~/docker_data/notionai-api-py/config.json:/app/config.json \
 -p 8233:8000 \
 --pull=always \
 --restart always \

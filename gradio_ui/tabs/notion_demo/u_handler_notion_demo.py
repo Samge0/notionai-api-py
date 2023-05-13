@@ -69,7 +69,7 @@ def handler(topic, prompt_type, tone, translate, prompt, context, notion_token, 
     # 检查参数
     check_statis, msg = u_api_handler.check_parameters(request)
     if not check_statis:
-        return f"【操作失败】：{msg}"
+        return [f"【操作失败】：{msg}", ""]
 
     # 缓存数据
     u_op_cache.save_cache(CACHE_KEY, request.__dict__)

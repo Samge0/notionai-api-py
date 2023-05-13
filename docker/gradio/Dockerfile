@@ -18,4 +18,4 @@ EXPOSE 7860
 VOLUME /app/gradio_cache
 
 # 运行应用程序
-CMD ["sh", "-c", "uvicorn gradio_ui.app:app --host 0.0.0.0 --port 7860"]
+CMD ["sh", "-c", "uvicorn gradio_ui.app:app"]
