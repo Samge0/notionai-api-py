@@ -23,7 +23,9 @@ proxies = {
     "https": None
 }
 
-request_verify = True
+request_verify = False
+
+timeout = 240
 
 
 class NotionAIBase(object):
@@ -63,7 +65,7 @@ class NotionAIBase(object):
 
         headers = self._build_headers(self.token)
         return requests.post(
-            self.url, json=payload, headers=headers, stream=self.stream, verify=request_verify, proxies=proxies
+            self.url, json=payload, headers=headers, stream=self.stream, verify=request_verify, proxies=proxies, timeout=timeout
         )
 
     @classmethod
@@ -128,7 +130,7 @@ class NotionAI(NotionAIBase):
         """
         api_url = api_url or API_URL
         url = f"{api_url}/api/v3/getSpaces"
-        r = requests.post(url, headers=cls._build_headers(token), verify=request_verify, proxies=proxies)
+        r = requests.post(url, headers=cls._build_headers(token), verify=request_verify, proxies=proxies, timeout=timeout)
         if r.status_code != 200:
             raise ValueError("Cannot get spaces")
         res = r.json()

@@ -3,6 +3,7 @@
 # author：samge
 # data：2023-03-28 14:43
 # describe：
+import codecs
 import json
 
 from gradio_ui.g_utils import u_op_cache
@@ -45,7 +46,7 @@ def get_result_api_info(request):
 Content-Type: application/json
 Authorization: Bearer {g_config.access_token}
 请求体（JSON）：
-{request.json()}
+{json.dumps(request.dict(), ensure_ascii=False)}
 """
 
 
@@ -84,3 +85,12 @@ def handler(topic, prompt_type, tone, translate, prompt, context, notion_token, 
     status, result = u_api_handler.get_notion_result(request)
     return [result, result_api_info]
 
+
+def unicode_to_chinese(unicode_str):
+    """
+    unicode编码内容转为明文中文
+    :param unicode_str:
+    :return:
+    """
+    chinese_str = codecs.decode(unicode_str, 'unicode_escape')
+    return chinese_str
