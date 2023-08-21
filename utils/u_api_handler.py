@@ -15,6 +15,15 @@ def check_parameters(request: NotionRequest) -> (bool, str):
     :return:
     """
 
+    if not request.context and need_context(request):
+        return False, f"{request.prompt_type} 类型请求的上下文内容（context）不能为空"
+
+    if not request.tone and request.prompt_type == PromptTypeEnum.change_tone.value:
+        return False, f"{request.prompt_type} 类型请求的语调（tone）不能为空"
+
+    if not request.translate and request.prompt_type == PromptTypeEnum.translate.value:
+        return False, f"{request.prompt_type} 类型请求的翻译语言（translate）不能为空"
+
     if not request.prompt and not request.context:
         return False, "参数[prompt、context]不能同时为空"
 
@@ -70,25 +79,43 @@ def get_notion_result(request: NotionRequest) -> (bool, str):
         result = notion_ai.translate(language=TranslateLanguageEnum(request.translate), context=context)
     else:
         return False, "未命中的请求类型"
+
+    if notion_ai.is_un_authorized_error(result):
+        return False, f"【NotionAI的认证失败/认证已过期】{result}"
+
     return True, result
+
+
+def need_context(request: NotionRequest):
+    """
+    判断是否需要上下文内容的类型
+    :param request:
+    :return:
+    """
+    return request.prompt_type in [
+        PromptTypeEnum.help_me_write.value, 
+        PromptTypeEnum.help_me_edit.value, 
+        PromptTypeEnum.translate.value,
+        PromptTypeEnum.change_tone.value
+    ]
 
 
 def hande_prompt_type(request: NotionRequest, notion_ai: NotionAI):
     """
     处理 prompt_type 的请求
-        其中help_me_write、help_me_edit、translate、change_tone这几个类型的context是需要取值的，如果context为空，则取prompt的值
+        其中 help_me_write、help_me_edit、translate、change_tone 这几个类型的context是需要取值的
     :param request:
     :param notion_ai:
     :return:
     """
-    context = request.context or request.prompt
-    if request.prompt_type == PromptTypeEnum.help_me_write:
+    context = request.context
+    if request.prompt_type == PromptTypeEnum.help_me_write.value:  # 帮助我写作
         result = notion_ai.help_me_write(prompt=request.prompt, context=context, page_title="")
-    elif request.prompt_type == PromptTypeEnum.help_me_edit:
+    elif request.prompt_type == PromptTypeEnum.help_me_edit.value:  # 帮助我编辑
         result = notion_ai.help_me_edit(prompt=request.prompt, context=context)
-    elif request.prompt_type == PromptTypeEnum.translate:
+    elif request.prompt_type == PromptTypeEnum.translate.value:  # 翻译
         result = notion_ai.translate(language=TranslateLanguageEnum(request.translate), context=context)
-    elif request.prompt_type == PromptTypeEnum.change_tone:
+    elif request.prompt_type == PromptTypeEnum.change_tone.value:  # 改变语气
         result = notion_ai.change_tone(tone=ToneEnum(request.tone), context=context)
     else:
         result = notion_ai.writing_with_prompt(prompt_type=PromptTypeEnum(request.prompt_type), context=context, page_title="")

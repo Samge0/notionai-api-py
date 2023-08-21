@@ -65,7 +65,10 @@ def handler(topic, prompt_type, tone, translate, prompt, context, notion_token, 
         space_id=space_id,
         api_url=api_url,
     )
+
+    # 合并参数
     u_config.merge_request(request)
+
     # 检查参数
     check_statis, msg = u_api_handler.check_parameters(request)
     if not check_statis:

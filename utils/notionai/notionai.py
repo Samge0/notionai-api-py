@@ -7,12 +7,23 @@ import json
 import uuid
 
 import requests
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 from requests import Response
 
 from utils.notionai.enums import PromptTypeEnum, ToneEnum, TopicEnum, TranslateLanguageEnum
 
 MODEL = "openai-3"
 API_URL = "https://www.notion.so"
+
+proxies = {
+    "http": None,
+    "https": None
+}
+
+request_verify = True
 
 
 class NotionAIBase(object):
@@ -52,7 +63,7 @@ class NotionAIBase(object):
 
         headers = self._build_headers(self.token)
         return requests.post(
-            self.url, json=payload, headers=headers, stream=self.stream
+            self.url, json=payload, headers=headers, stream=self.stream, verify=request_verify, proxies=proxies
         )
 
     @classmethod
@@ -65,6 +76,7 @@ class NotionAIBase(object):
             "accept": "application/json",
             "Cookie": "; ".join(cookies),
             "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
         }
 
     def _post(self, content: dict) -> str:
@@ -81,10 +93,21 @@ class NotionAIBase(object):
                     return data["completion"]
             except Exception as e:
                 print(f"data: {line}, error: {e}")
+                if self.is_un_authorized_error(str(line)):
+                    return str(line)
         return ""
 
     def _get_id(self) -> str:
         return str(uuid.uuid4())
+
+    def is_un_authorized_error(self, value) -> bool:
+        """
+        是否认证失败错误
+        :param value:
+        :return:
+        """
+        value = value or ''
+        return 'UnauthorizedError' in value
 
 
 class NotionAI(NotionAIBase):
@@ -105,7 +128,7 @@ class NotionAI(NotionAIBase):
         """
         api_url = api_url or API_URL
         url = f"{api_url}/api/v3/getSpaces"
-        r = requests.post(url, headers=cls._build_headers(token))
+        r = requests.post(url, headers=cls._build_headers(token), verify=request_verify, proxies=proxies)
         if r.status_code != 200:
             raise ValueError("Cannot get spaces")
         res = r.json()
