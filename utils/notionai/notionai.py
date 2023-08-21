@@ -95,7 +95,7 @@ class NotionAIBase(object):
                     return data["completion"]
             except Exception as e:
                 print(f"data: {line}, error: {e}")
-                if self.is_un_authorized_error(str(line)):
+                if self.is_un_authorized_error(str(line)) or self.is_429_error(str(line)):
                     return str(line)
         return ""
 
@@ -110,6 +110,15 @@ class NotionAIBase(object):
         """
         value = value or ''
         return 'UnauthorizedError' in value
+
+    def is_429_error(self, value) -> bool:
+        """
+        是否429请求限制
+        :param value:
+        :return:
+        """
+        value = value or ''
+        return 'code 429' in value
 
 
 class NotionAI(NotionAIBase):
