@@ -83,6 +83,9 @@ def get_notion_result(request: NotionRequest) -> (bool, str):
     if notion_ai.is_un_authorized_error(result):
         return False, f"【NotionAI的认证失败/认证已过期】{result}"
 
+    if notion_ai.is_429_error(result):
+        return False, f"【429请求频繁限制】{result}"
+
     return True, result
 
 
