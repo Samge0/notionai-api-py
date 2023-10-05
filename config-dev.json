@@ -1,4 +1,5 @@
 {
+  "model": "openai-4",
   "access_token": "这里添加自定义的api请求token",
   "prompt_type": "",
   "tone": "",

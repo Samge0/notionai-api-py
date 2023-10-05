@@ -64,7 +64,7 @@ def get_notion_result(request: NotionRequest) -> (bool, str):
     :return:
     """
     context = request.context or request.prompt
-    notion_ai = NotionAI(request.notion_token, request.space_id, api_url=request.api_url)
+    notion_ai = NotionAI(request.notion_token, request.space_id, model=request.model, api_url=request.api_url)
     if request.topic:
         # 根据提示进行主题书写（只需要提示prompt，不需要上下文内容context），可选参数
         result = notion_ai.writing_with_topic(topic=TopicEnum(request.topic), prompt=request.prompt)

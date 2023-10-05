@@ -13,6 +13,7 @@ DEFAULT_API_URL = "https://www.notion.so"
 
 class NotionRequestBase(BaseModel):
     """notion基础请求体"""
+    model: Optional[str] = None  # 模型，例如 openai-3 、 openai-4
     prompt_type: Optional[str] = None  # 提示类型：helpMeWrite=帮助我写作, continueWriting=继续写作, changeTone=改变语气, summarize=总结, improveWriting=改善写作, fixSpellingGrammar=纠正拼写和语法错误, translate=翻译, explainThis=解释这个, makeLonger=延长篇幅, makeShorter=缩短篇幅, findActionItems=找到行动项, simplifyLanguage=简化语言, helpMeEdit=帮助我编辑
     tone: Optional[str] = None  # 语调类型：professional=专业的, casual=随便的，非正式的, straightforward=直截了当的，简单易懂的, confident=自信的, friendly=友好的
     topic: Optional[str] = None  # 主题：brainstormIdeas=头脑风暴想法, blogPost=博客文章, outline=大纲, socialMediaPost=社交媒体帖子, pressRelease=新闻稿, creativeStory=创意故事, essay=论文, poem=诗, meetingAgenda=会议议程, prosConsList=优点清单, jobDescription=工作描述, salesEmail=销售电子邮件, recruitingEmail=招聘电子邮件

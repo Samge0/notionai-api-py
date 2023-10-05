@@ -31,6 +31,7 @@ uvicorn run main:app --reload --host 0.0.0.0 --port 8000
 - [系统配置的参数说明](config-dev.json)
 ```text
 {
+  "model": "openai-4",  // 模型，例如 openai-3 、 openai-4
   "access_token": "",  // 自定义的api请求token，可选参数
   "prompt_type": "",  // 根据文本进行上下文连写（需要提示prompt + 上下文内容context），可选参数
   "tone": "",  // 根据文本进行语调调整（需要上下文内容context），可选参数
@@ -46,6 +47,7 @@ uvicorn run main:app --reload --host 0.0.0.0 --port 8000
 - api请求的参数（`api的参数`比`系统配置的参数`优先级高，方便调用者动态修改）,api的具体调用请参考[test_main.http](test_main.http)
 ```text
 {
+  "model": "openai-4",  // 模型，例如 openai-3 、 openai-4
   "prompt": "",  // 提示内容（文本）【可选，但prompt与context不能同时为空】
   "context": "",  // 上下文内容（文本）【可选，但prompt与context不能同时为空。部分类型必选：help_me_write、help_me_edit、translate、change_tone，如果为空则取prompt】
   "prompt_type": "",  // 根据文本进行上下文连写（需要提示prompt + 上下文内容context），可选参数

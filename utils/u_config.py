@@ -25,6 +25,7 @@ _config_dict = u_json.eval_dict(u_file.read(_config_json_path))
 g_config = GlobalConfig.parse_obj(_config_dict) if isinstance(_config_dict, dict) else GlobalConfig()
 
 # 读取环境变量的值 - 如果存在的话
+g_config.model = os.environ.get('NOTION_MODEL') or g_config.model
 g_config.access_token = os.environ.get('ACCESS_TOKEN') or g_config.access_token
 g_config.prompt_type = os.environ.get('NOTION_PROMPT_TYPE') or g_config.prompt_type
 g_config.tone = os.environ.get('NOTION_TONE') or g_config.tone
@@ -37,6 +38,7 @@ g_config.api_url = os.environ.get('NOTION_API_URL') or g_config.api_url
 
 def merge_request(request: NotionRequestBase):
     """ 将 请求体的值 与 g_config的值 合并返回，优先使用 request的值 """
+    request.model = request.model or g_config.model
     request.prompt_type = request.prompt_type or g_config.prompt_type
     request.tone = request.tone or g_config.tone
     request.topic = request.topic or g_config.topic

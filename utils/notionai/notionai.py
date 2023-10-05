@@ -15,7 +15,7 @@ from requests import Response
 
 from utils.notionai.enums import PromptTypeEnum, ToneEnum, TopicEnum, TranslateLanguageEnum
 
-MODEL = "openai-3"
+MODEL = "openai-4"
 API_URL = "https://www.notion.so"
 
 proxies = {
@@ -49,7 +49,7 @@ class NotionAIBase(object):
         """
         self.token = token
         self.space_id = space_id
-        self.model = model
+        self.model = model or MODEL
         self.api_url = api_url or API_URL
         self.is_space_permission = False
         self.url = f"{self.api_url}/api/v3/getCompletion"
