@@ -55,12 +55,20 @@ class NotionAIBase(object):
         self.url = f"{self.api_url}/api/v3/getCompletion"
 
     def _request(self, content: dict) -> Response:
+        blockId = self._get_id()
         payload = {
             "id": self._get_id(),
             "model": self.model,
             "spaceId": self.space_id,
             "isSpacePermission": self.is_space_permission,
             "context": content,
+            "aiSessionId": self._get_id(),
+            "metadata": {
+                "blockId": blockId
+            },
+            "attributionForLogging": {
+                "blockId": blockId
+            },
         }
 
         headers = self._build_headers(self.token)
@@ -83,6 +91,9 @@ class NotionAIBase(object):
 
     def _post(self, content: dict) -> str:
         r = self._request(content)
+        if r.status_code != 200:
+            # '{"errorId":"3fe5f108-dbbc-442b-8f29-5ec8158e71ed","name":"ValidationError","debugMessage":"Invalid input.","message":"Something went wrong. (400)"}'
+            return r.text
         data = r.text.split("\n")
         res = [self._parse_resp_line(d) for d in data]
         return "".join(res).strip("\n")
@@ -101,6 +112,16 @@ class NotionAIBase(object):
 
     def _get_id(self) -> str:
         return str(uuid.uuid4())
+
+    def is_bad_request(self, value) -> bool:
+        """
+        是否请求错误
+        '{"errorId":"3fe5f108-dbbc-442b-8f29-5ec8158e71ed","name":"ValidationError","debugMessage":"Invalid input.","message":"Something went wrong. (400)"}'
+        :param value:
+        :return:
+        """
+        value = value or ''
+        return 'errorId' in value
 
     def is_un_authorized_error(self, value) -> bool:
         """
@@ -196,6 +217,7 @@ class NotionAI(NotionAIBase):
             "type": prompt_type.value,
             "pageTitle": page_title,
             "selectedText": context,
+            "pageContent": context,
         }
         return self._post(content)
 
@@ -260,6 +282,7 @@ class NotionAI(NotionAIBase):
             "pageTitle": page_title,
             "prompt": prompt,
             "selectedText": context,
+            "pageContent": context,
         }
         return self._post(content)
 

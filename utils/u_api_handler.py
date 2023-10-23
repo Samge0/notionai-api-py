@@ -63,30 +63,36 @@ def get_notion_result(request: NotionRequest) -> (bool, str):
     :param request:
     :return:
     """
-    context = request.context or request.prompt
-    notion_ai = NotionAI(request.notion_token, request.space_id, model=request.model, api_url=request.api_url)
-    if request.topic:
-        # 根据提示进行主题书写（只需要提示prompt，不需要上下文内容context），可选参数
-        result = notion_ai.writing_with_topic(topic=TopicEnum(request.topic), prompt=request.prompt)
-    elif request.prompt_type:
-        # 根据上下文内容+提示生成内容
-        result = hande_prompt_type(request, notion_ai)
-    elif request.tone:
-        # 根据文本进行语调调整（需要上下文内容context）
-        result = notion_ai.change_tone(tone=ToneEnum(request.tone), context=context)
-    elif request.translate:
-        # 根据文本进行翻译（需要上下文内容context）
-        result = notion_ai.translate(language=TranslateLanguageEnum(request.translate), context=context)
-    else:
-        return False, "未命中的请求类型"
+    try:
+        context = request.context or request.prompt
+        notion_ai = NotionAI(request.notion_token, request.space_id, model=request.model, api_url=request.api_url)
+        if request.topic:
+            # 根据提示进行主题书写（只需要提示prompt，不需要上下文内容context），可选参数
+            result = notion_ai.writing_with_topic(topic=TopicEnum(request.topic), prompt=request.prompt)
+        elif request.prompt_type:
+            # 根据上下文内容+提示生成内容
+            result = hande_prompt_type(request, notion_ai)
+        elif request.tone:
+            # 根据文本进行语调调整（需要上下文内容context）
+            result = notion_ai.change_tone(tone=ToneEnum(request.tone), context=context)
+        elif request.translate:
+            # 根据文本进行翻译（需要上下文内容context）
+            result = notion_ai.translate(language=TranslateLanguageEnum(request.translate), context=context)
+        else:
+            return False, "未命中的请求类型"
 
-    if notion_ai.is_un_authorized_error(result):
-        return False, f"【NotionAI的认证失败/认证已过期】{result}"
+        if notion_ai.is_un_authorized_error(result):
+            return False, f"【NotionAI的认证失败/认证已过期】{result}"
 
-    if notion_ai.is_429_error(result):
-        return False, f"【429请求频繁限制】{result}"
+        if notion_ai.is_429_error(result):
+            return False, f"【429请求频繁限制】{result}"
 
-    return True, result
+        if notion_ai.is_bad_request(result):
+            return False, f"【请求错误】{result}"
+
+        return True, result
+    except Exception as e:
+        return False, f"【请求异常】{e}"
 
 
 def need_context(request: NotionRequest):
