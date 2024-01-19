@@ -3,6 +3,7 @@
 # author：samge
 # data：2023-02-28 14:56
 # describe：
+from fastapi import HTTPException
 
 
 def common_response(code, data, msg) -> dict:
@@ -36,7 +37,7 @@ def fail400(msg: str = '参数错误') -> dict:
 
 def fail403(msg: str = '权限校验失败') -> dict:
     """ 权限校验失败 """
-    return common_response(403, None, msg)
+    raise HTTPException(status_code=403, detail=msg)
 
 
 def fail500(msg: str = '服务异常，请稍后重') -> dict:
